@@ -2,23 +2,23 @@ package domain;
 
 import java.util.Date;
 
-public class OrdemServico {
-	private EmpresaCliente cliente;
+public class OrdemServico extends EntidadeBase {
+	private Empresa cliente;
 	private Servico servico;
 	private String numeroSerie;
 	private Date dataEmissao;
 	private int numeroOrdem;
 	
-	public void ordemServico(EmpresaCliente cliente, Servico servico) {
+	public void ordemServico(Empresa cliente, Servico servico) {
 		this.cliente = cliente;
 		this.servico = servico;
 	}	
 	
-	public EmpresaCliente getcliente() {
+	public Empresa getcliente() {
 		return cliente;
 	}
 
-	public void setcliente(EmpresaCliente cliente) {
+	public void setcliente(Empresa cliente) {
 		this.cliente = cliente;
 	}
 	

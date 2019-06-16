@@ -1,18 +1,20 @@
 package domain;
 
 import java.util.Date;
+import java.util.UUID;
 
-public class Contrato {
+public class Contrato extends EntidadeBase {
 	private String aditivo;
 	private Date inicio;
 	private Date fim;
 	private Servico servico;
-	private EmpresaCliente cliente;
+	private Empresa empresa;
 	private Gestor gestor;
 	
 	
-	public Contrato(EmpresaCliente cliente, Gestor gestor, Servico servico, Date inicio, Date fim, String aditivo) {
-		this.cliente = cliente;
+	public Contrato(Empresa empresa, Gestor gestor, Servico servico, Date inicio, Date fim, String aditivo) {
+		this.setId(UUID.randomUUID());
+		this.empresa = empresa;
 		this.gestor = gestor;
 		this.servico = servico;
 		this.inicio = inicio;
@@ -52,12 +54,12 @@ public class Contrato {
 		this.servico = servico;
 	}
 
-	public EmpresaCliente getCliente() {
-		return cliente;
+	public Empresa getEmpresa() {
+		return empresa;
 	}
 
-	public void setCliente(EmpresaCliente cliente) {
-		this.cliente = cliente;
+	public void setEmpresa(Empresa empresa) {
+		this.empresa = empresa;
 	}
 
 	public Gestor getGestor() {
@@ -67,6 +69,5 @@ public class Contrato {
 	public void setGestor(Gestor gestor) {
 		this.gestor = gestor;
 	}
-	
 	
 }

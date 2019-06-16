@@ -1,10 +1,9 @@
 package domain;
 
-public class DadosPessoais {
+public class DadosPessoais extends EntidadeBase {
 	private String nome;
 	private String endereco;
-	private int telefone;
-	private int matricula;
+	private String telefone;
 	
 	public String getNome() {
 		return nome;
@@ -22,20 +21,11 @@ public class DadosPessoais {
 		this.endereco = endereco;
 	}
 
-	public int getTelefone() {
+	public String getTelefone() {
 		return telefone;
 	}
 
-	public void setTelefone(int telefone) {
+	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
-	
-	public int getMatricula() {
-		return matricula;
-	}
-
-	public void setMatricula(int matricula) {
-		this.matricula = matricula;
-	}
-	
 }

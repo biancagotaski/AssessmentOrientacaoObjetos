@@ -1,38 +1,20 @@
 package domain;
 
+import java.util.UUID;
+
 public class Funcionario extends DadosPessoais{
 	
-	public String getNome() {
-		return super.getNome();
-	}
-	
-	public void setNome(String nome) {
+	public Funcionario(String nome, String endereco, String telefone) {
+		this.setId(UUID.randomUUID());
 		super.setNome(nome);
-	}
-	
-	public String getEndereco() {
-		return super.getEndereco();
-	}
-	
-	public void setEndereco(String endereco) {
-		super.setNome(endereco);
-	}
-	
-	
-	public int getTelefone() {
-		return super.getTelefone();
-	}
-	
-	public void setTelefone(int telefone) {
+		super.setEndereco(endereco);
 		super.setTelefone(telefone);
 	}
 	
-	public int getMatricula() {
-		return super.getMatricula();
+	public Funcionario(UUID id, String nome, String endereco, String telefone) {
+		this.setId(id);
+		super.setNome(nome);
+		super.setEndereco(endereco);
+		super.setTelefone(telefone);
 	}
-	
-	public void setMatricula(int matricula) {
-		super.setMatricula(matricula);
-	}
-	
 }
