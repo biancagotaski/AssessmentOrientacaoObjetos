@@ -1,6 +1,8 @@
 package domain;
 
-public class Fiscal {
+import java.util.Date;
+
+public class Fiscal extends Funcionario{
 	
 	
 	//verifica condições da máquina

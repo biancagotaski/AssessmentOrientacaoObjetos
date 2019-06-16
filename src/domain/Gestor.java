@@ -1,5 +1,5 @@
 package domain;
 
-public class Gestor {
+public class Gestor extends DadosPessoais{
 	//aprova renovação do contrato
 }
