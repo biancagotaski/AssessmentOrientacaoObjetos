@@ -44,7 +44,23 @@ public class Main {
 			System.out.println("9 - Imprimir uma Empresa");
 			System.out.println("10 - Imprimir Todas as Empresas");
 			System.out.println("-----------------------");
-			System.out.println("20 - Sair");
+			System.out.println();
+			System.out.println("---- Serviços que você irá oferecer ----");
+			System.out.println("11 - Cadastrar Tipo de Serviço");
+			System.out.println("12 - Alterar Serviço");
+			System.out.println("13 - Deletar Serviço");
+			System.out.println("14 - Imprimir um Serviço");
+			System.out.println("15 - Imprimir Todas os Serviços");
+			System.out.println("-----------------------");
+			System.out.println();
+			System.out.println("---- Contratos ----");
+			System.out.println("16 - Cadastrar Novo Contrato");
+			System.out.println("17 - Alterar Contrato");
+			System.out.println("18 - Deletar Contrato");
+			System.out.println("19 - Imprimir um Contrato");
+			System.out.println("20 - Imprimir Todas os Contratos");
+			System.out.println("-----------------------");
+			System.out.println("22 - Sair");
 			opcao = scanner.nextInt();
 			
 			System.out.println();
@@ -241,6 +257,7 @@ public class Main {
 	//--------------------------------------------------
 
 	//------------ Funções de Serviço --------------
+		
 	//----------------------------------------------
 	
 	//------------ Funções de Contrato --------------
