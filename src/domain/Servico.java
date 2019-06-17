@@ -1,11 +1,31 @@
 package domain;
 
-public class Servico {
+import java.util.UUID;
+
+public class Servico extends EntidadeBase{
 	private String descricao;
 	private boolean ofereceGarantia;
 	private int duracaoServico;
 	private float valor;
 	private boolean ofereceManutencao;
+	
+	public Servico(String descricao, boolean ofereceGarantia, int duracaoServico, float valor, boolean ofereceManutencao) {
+		this.setId(UUID.randomUUID());
+		this.descricao = descricao;
+		this.ofereceGarantia = ofereceGarantia;
+		this.duracaoServico = duracaoServico;
+		this.valor = valor;
+		this.ofereceManutencao = ofereceManutencao;
+	}
+	
+	public Servico(UUID id, String descricao, boolean ofereceGarantia, int duracaoServico, float valor, boolean ofereceManutencao) {
+		this.setId(id);
+		this.descricao = descricao;
+		this.ofereceGarantia = ofereceGarantia;
+		this.duracaoServico = duracaoServico;
+		this.valor = valor;
+		this.ofereceManutencao = ofereceManutencao;
+	}
 	
 	public String getDescricao() {
 		return descricao;

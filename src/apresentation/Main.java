@@ -1,4 +1,4 @@
-package presentation;
+package apresentation;
 
 import java.time.Instant;
 import java.util.Calendar;
@@ -9,15 +9,18 @@ import java.util.UUID;
 
 import domain.Empresa;
 import domain.Funcionario;
+import domain.Servico;
 import service.ContratoService;
 import service.EmpresaService;
 import service.FuncionarioService;
+import service.ServicoService;
 
 public class Main {
 	
 	//====== Serviços =======
 	private static FuncionarioService funcionarioService = new FuncionarioService();
 	private static EmpresaService empresaService = new EmpresaService();
+	private static ServicoService servicoService = new ServicoService();
 	private static ContratoService contratoService = new ContratoService();
 	//=======================
 		
@@ -257,6 +260,57 @@ public class Main {
 	//--------------------------------------------------
 
 	//------------ Funções de Serviço --------------
+	private static void cadastrarServico() {
+		Scanner scanner = new Scanner(System.in);
+		
+		System.out.println("Digite a descrição desse novo serviço:");
+		String descricao = scanner.nextLine();
+		
+		System.out.println("Esse serviço irá oferecer garantia? (Digite s para Sim e n para Não)");
+		String input = scanner.nextLine();
+		boolean ofereceGarantia = false;
+		if(input.toLowerCase().equals("s")) {
+			ofereceGarantia = true;
+		} else if(input.toLowerCase().equals("n")){
+			ofereceGarantia = false;
+		}
+		
+		System.out.println("Digite a duração desse serviço:");
+		int duracao = scanner.nextInt();
+		
+		System.out.println("Digite o valor do serviço:");
+		float valor = scanner.nextFloat();
+		
+		System.out.println("Esse serviço irá oferecer manutenção? (Digite s para Sim e n para Não)");
+		String inputUser = scanner.nextLine();
+		boolean ofereceManutencao = false;
+		if(inputUser.toLowerCase().equals("s")) {
+			ofereceManutencao = true;
+		}
+		else if(inputUser.toLowerCase().equals("n")) {
+			ofereceManutencao = false;
+		}
+
+		System.out.println("Informe o aditivo deste contrato:");
+		String aditivo = scanner.nextLine();
+
+		UUID id = servicoService.adicionarServico(descricao, ofereceGarantia, duracao, valor, ofereceManutencao);
+		System.out.println("Id do novo Serviço: " + id);
+	}
+	
+	public static void listarServicos() {
+		List<Servico> servicos = servicoService.obterTodosOsServicos();
+		
+		for (Servico servico : servicos) {
+			System.out.println("Id: " + servico.getId());
+			System.out.println("Descrição: " + servico.getDescricao());
+			System.out.println("Oferece Garantia: " + servico.isOfereceGarantia());
+			System.out.println("Duração: " + servico.getDuracaoServico());
+			System.out.println("Valor: " + servico.getDuracaoServico());
+			System.out.println("Oferece Manutenção: " + servico.isOfereceManutencao());
+			System.out.println("******************************************");
+		}
+	}
 		
 	//----------------------------------------------
 	
