@@ -148,21 +148,53 @@ public class Main {
 	//------------ Seed -------------
 	private static void seed() {
 		
-		//Funcionário
+		//------------- Instanciando objetos (Funcionário) -------------
+		
+		//Funcionário 1
 		UUID funcId = funcionarioService.adicionarFuncionario("Rodolfo", "Rua São José 90", "12345");
 		Funcionario funcionario = funcionarioService.obterFuncionario(funcId);
 		
-		//Empresa
-		UUID empId = empresaService.cadastrarEmpresa("22.234.53534/2342-1", "Couves S.A.", "Rua das Couves", "23482342");
+		//Funcionário 2
+		UUID funcId2 = funcionarioService.adicionarFuncionario("Joana", "Rua Chico Boarque, 294", "776291");
+		Funcionario func2= funcionarioService.obterFuncionario(funcId2);
+		
+		//------------- Instanciando objetos (Empresa) -------------
+		
+		//Empresa1
+		UUID empId = empresaService.cadastrarEmpresa("22.234.53534/2342-1", "Couves S.A.", "Rua das Couves s/n", "23482342");
 		Empresa empresa = empresaService.obterEmpresao(empId);
 		
+		//Empresa1
+		UUID empId2 = empresaService.cadastrarEmpresa("10.928.57570/1379-2", "Beterraba S.A.", "Rua das Beterrabas, 742", "00192828");
+		Empresa emp2 = empresaService.obterEmpresao(empId2);
+		
+		//------------- Instanciando objetos (Serviço) -------------
 		
 		//Serviço
 		UUID servicoId = servicoService.adicionarServico("Plantio de Couve", true, 12, 3500, true);
 		Servico servico = servicoService.obterServico(servicoId);
 		
+		//Serviço
+		UUID servicoId2 = servicoService.adicionarServico("Plantio de Beterrabas", false, 34, 2805, false);
+		Servico serv2 = servicoService.obterServico(servicoId2);
+		
+		//------------- Instanciando objetos (Contrato) -------------
+		
 		//Contrato
-		contratoService.criarContrato(empresa, funcionario, servico, 12, "");
+		UUID contrId1 = contratoService.criarContrato(empresa, funcionario, servico, 12, "");
+		Contrato contr1 = contratoService.obterContrato(contrId1);
+		
+		//Contrato
+		UUID contrId2 = contratoService.criarContrato(emp2, func2, serv2, 24, "");
+		Contrato contr2 = contratoService.obterContrato(contrId2);
+		
+		//Contrato
+		UUID contrId3 = contratoService.criarContrato(empresa, func2, servico, 48, "Esse contrato é passível de mudanças");
+		Contrato contr3 = contratoService.obterContrato(contrId3);
+		
+		//Contrato
+		UUID contrId4 = contratoService.criarContrato(emp2, funcionario, serv2, 6, "O cliente irá revisar esse contrato");
+		Contrato contr4 = contratoService.obterContrato(contrId4);
 	}
 	//-------------------------------
 	
@@ -228,6 +260,8 @@ public class Main {
 	}
 	
 	private static void listarFuncionarios() {
+		System.out.println("Funcionários cadastrados:");
+		
 		List<Funcionario> funcionarios = funcionarioService.obterTodosFuncionarios();
 		for (Funcionario funcionario : funcionarios) {
 			System.out.println("Id: " + funcionario.getId());
@@ -305,6 +339,8 @@ public class Main {
 	}
 	
 	private static void listarEmpresas() {
+		System.out.println("Empresas cadastradas:");
+		
 		List<Empresa> empresas = empresaService.listarEmpresas();
 		for (Empresa empresa : empresas) {
 			System.out.println("Id: " + empresa.getId());
@@ -423,6 +459,8 @@ public class Main {
 	}
 	
 	public static void listarServicos() {
+		System.out.println("Serviços cadastrados:");
+		
 		List<Servico> servicos = servicoService.obterTodosOsServicos();
 		
 		for (Servico servico : servicos) {
@@ -454,7 +492,8 @@ public class Main {
 		System.out.println("Se esse contrato já possui algum aditivo, detalhe ele:");
 		String aditivo = scanner.nextLine();
 				
-		contratoService.criarContrato(empresaService.obterEmpresao(idEmpresa), funcionarioService.obterFuncionario(idGestor) , servicoService.obterServico(idServico), Integer.parseInt(duracaoStr), aditivo);			
+		UUID id = contratoService.criarContrato(empresaService.obterEmpresao(idEmpresa), funcionarioService.obterFuncionario(idGestor) , servicoService.obterServico(idServico), Integer.parseInt(duracaoStr), aditivo);
+		System.out.println("Id do contrato cadastrado:" + id);
 	}
 
 	public static void alterarContrato() {
@@ -512,6 +551,8 @@ public class Main {
 	}
 	
 	public static void listarContratos() {
+		System.out.println("Contratos cadastrados:");
+		
 		List<Contrato> contratos = contratoService.obterTodosContratos();
 		for (Contrato contrato : contratos) {
 			System.out.println("Id do Contrato: " + contrato.getId());
