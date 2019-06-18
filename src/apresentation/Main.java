@@ -1,12 +1,13 @@
 package apresentation;
 
+import java.io.IOException;
 import java.time.Instant;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
+import domain.Contrato;
 import domain.Empresa;
 import domain.Funcionario;
 import domain.Servico;
@@ -25,9 +26,10 @@ public class Main {
 	//=======================
 		
 	public static void main(String[] args) {
-		int stoppApplication = 20;
+		int stoppApplication = 22;
 		int opcao;
 		Scanner scanner = new Scanner(System.in);
+		seed(); //Preenche a base de dados com algumas informações iniciais.
 		
 		do{
 			System.out.println("========= Gerenciador de Contratos da Empresa XPTO =========");
@@ -114,13 +116,55 @@ public class Main {
 				case 15:
 					listarServicos();
 					break;
-				
+				case 16:
+					cadastrarContrato();
+					break;
+				case 17:
+					alterarContrato();
+					break;
+				case 18:
+					deletarContrato();
+					break;
+				case 19:
+					imprimirContrato();
+					break;
+				case 20:
+					listarContratos();
+					break;
 			}
 			
 			System.out.println();
+			System.out.println("Pressione ENTER para voltar ao menu principal...");
+			try {
+				System.in.read();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 		} while(opcao != stoppApplication);
 	}
+	
+	//------------ Seed -------------
+	private static void seed() {
+		
+		//Funcionário
+		UUID funcId = funcionarioService.adicionarFuncionario("Rodolfo", "Rua São José 90", "12345");
+		Funcionario funcionario = funcionarioService.obterFuncionario(funcId);
+		
+		//Empresa
+		UUID empId = empresaService.cadastrarEmpresa("22.234.53534/2342-1", "Couves S.A.", "Rua das Couves", "23482342");
+		Empresa empresa = empresaService.obterEmpresao(empId);
+		
+		
+		//Serviço
+		UUID servicoId = servicoService.adicionarServico("Plantio de Couve", true, 12, 3500, true);
+		Servico servico = servicoService.obterServico(servicoId);
+		
+		//Contrato
+		contratoService.criarContrato(empresa, funcionario, servico, 12, "");
+	}
+	//-------------------------------
 	
 	//------------ Funções de Funcionário --------------
 	private static void cadastrarFuncionario() {
@@ -406,17 +450,80 @@ public class Main {
 		UUID idServico = UUID.fromString(scanner.nextLine());
 		Date dataInicio = Date.from(Instant.now());
 		System.out.println("Qual o período de duração do contrato (número de meses)");
-		int meses = scanner.nextInt();
-		
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(dataInicio);
-		calendar.set(Calendar.MONTH, (calendar.get(Calendar.MONTH)+meses));
-		Date dataFim = calendar.getTime();
-		
-		System.out.println("Informe o aditivo deste contrato:");
+		String duracaoStr = scanner.nextLine();
+		System.out.println("Se esse contrato já possui algum aditivo, detalhe ele:");
 		String aditivo = scanner.nextLine();
 				
-//		contratoService.criarContrato(empresaService.obterEmpresao(idEmpresa), funcionarioService.obterFuncionario(idGestor) , servicoService.obterServico(idServico), dataInicio, dataFim, aditivo);			
+		contratoService.criarContrato(empresaService.obterEmpresao(idEmpresa), funcionarioService.obterFuncionario(idGestor) , servicoService.obterServico(idServico), Integer.parseInt(duracaoStr), aditivo);			
+	}
+
+	public static void alterarContrato() {
+		Scanner scanner = new Scanner(System.in);
+		
+		System.out.println("Digite o ID do Contrato:");
+		String idStr = scanner.nextLine();
+		UUID id = UUID.fromString(idStr);
+
+		System.out.println("Digite o ID da empresa com a qual deseja criar contrato");
+		UUID idEmpresa = UUID.fromString(scanner.nextLine());
+		System.out.println("Digite o ID do Gestor do contrato (seu funcionário)");
+		UUID idGestor = UUID.fromString(scanner.nextLine());
+		System.out.println("Digite o ID do tipo de Serviço que será prestado");
+		UUID idServico = UUID.fromString(scanner.nextLine());
+		Date dataInicio = Date.from(Instant.now());
+		System.out.println("Qual o período de duração do contrato (número de meses)");
+		String duracaoStr = scanner.nextLine();
+		System.out.println("Se esse contrato já possui algum aditivo, detalhe ele:");
+		String aditivo = scanner.nextLine();
+
+		contratoService.editarContrato(id, empresaService.obterEmpresao(idEmpresa), funcionarioService.obterFuncionario(idGestor) , servicoService.obterServico(idServico), Integer.parseInt(duracaoStr), aditivo);
+	}
+	
+	public static void deletarContrato() {
+		Scanner scanner = new Scanner(System.in);
+		
+		System.out.println("Digite o ID do contrato a ser deletado");
+		String idStr = scanner.nextLine();
+		UUID id = UUID.fromString(idStr);
+		
+		contratoService.deletarContrato(id);
+		
+		System.out.println("Contrato deletado com sucesso!");
+	}
+	
+	public static void imprimirContrato() {
+		Scanner scanner = new Scanner(System.in);
+		
+		System.out.println("Digite o ID do contrato");
+		String idStr = scanner.nextLine();
+		UUID id = UUID.fromString(idStr);
+		
+		Contrato contrato = contratoService.obterContrato(id);
+		
+		System.out.println("Id do Contrato: " + contrato.getId());
+		System.out.println("Id do Gestor: " + contrato.getGestor().getId());
+		System.out.println("Nome do Gestor: " + contrato.getGestor().getNome());
+		System.out.println("Id do Serviço: " + contrato.getServico().getId());
+		System.out.println("Descrição do Serviço: " + contrato.getServico().getDescricao());
+		System.out.println("Id da Empresa para a qual prestará serviço: " + contrato.getEmpresa().getId() );
+		System.out.println("Duração: " + contrato.getServico().getDuracaoServico() + " meses");
+		System.out.println("Aditivo: " + contrato.getAditivo());
+		System.out.println("******************************************");
+	}
+	
+	public static void listarContratos() {
+		List<Contrato> contratos = contratoService.obterTodosContratos();
+		for (Contrato contrato : contratos) {
+			System.out.println("Id do Contrato: " + contrato.getId());
+			System.out.println("Id do Gestor: " + contrato.getGestor().getId());
+			System.out.println("Nome do Gestor: " + contrato.getGestor().getNome());
+			System.out.println("Id do Serviço: " + contrato.getServico().getId());
+			System.out.println("Descrição do Serviço: " + contrato.getServico().getDescricao());
+			System.out.println("Id da Empresa para a qual prestará serviço: " + contrato.getEmpresa().getId() );
+			System.out.println("Duração: " + contrato.getServico().getDuracaoServico() + " meses");
+			System.out.println("Aditivo: " + contrato.getAditivo());
+			System.out.println("******************************************");
+		}		
 	}
 	//--------------------------------------------------
 }

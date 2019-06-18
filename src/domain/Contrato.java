@@ -5,20 +5,27 @@ import java.util.UUID;
 
 public class Contrato extends EntidadeBase {
 	private String aditivo;
-	private Date inicio;
-	private Date fim;
+	private int duracao;
 	private Servico servico;
 	private Empresa empresa;
-	private Gestor gestor;
+	private Funcionario gestor;
 	
 	
-	public Contrato(Empresa empresa, Gestor gestor, Servico servico, Date inicio, Date fim, String aditivo) {
+	public Contrato(Empresa empresa, Funcionario gestor, Servico servico, int duracao, String aditivo) {
 		this.setId(UUID.randomUUID());
 		this.empresa = empresa;
 		this.gestor = gestor;
 		this.servico = servico;
-		this.inicio = inicio;
-		this.fim = fim;
+		this.duracao = duracao;
+		this.aditivo = aditivo;
+	}
+	
+	public Contrato(UUID id, Empresa empresa, Funcionario gestor, Servico servico, int duracao, String aditivo) {
+		this.setId(id);
+		this.empresa = empresa;
+		this.gestor = gestor;
+		this.servico = servico;
+		this.duracao = duracao;
 		this.aditivo = aditivo;
 	}
 	
@@ -28,22 +35,6 @@ public class Contrato extends EntidadeBase {
 	
 	public void setAditivo(String aditivo) {
 		this.aditivo = aditivo;
-	}
-	
-	public Date getInicio() {
-		return inicio;
-	}
-	
-	public void setInicio(Date inicio) {
-		this.inicio = inicio;
-	}
-
-	public Date getFim() {
-		return fim;
-	}
-
-	public void setFim(Date fim) {
-		this.fim = fim;
 	}
 
 	public Servico getServico() {
@@ -62,12 +53,20 @@ public class Contrato extends EntidadeBase {
 		this.empresa = empresa;
 	}
 
-	public Gestor getGestor() {
+	public Funcionario getGestor() {
 		return gestor;
 	}
 
-	public void setGestor(Gestor gestor) {
+	public void setGestor(Funcionario gestor) {
 		this.gestor = gestor;
+	}
+
+	public int getDuracao() {
+		return duracao;
+	}
+
+	public void setDuracao(int duracao) {
+		this.duracao = duracao;
 	}
 	
 }

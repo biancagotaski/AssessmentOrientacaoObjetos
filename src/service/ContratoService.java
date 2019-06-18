@@ -1,7 +1,6 @@
 package service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -9,7 +8,7 @@ import java.util.stream.Collectors;
 import dao.ContratoDao;
 import domain.Contrato;
 import domain.Empresa;
-import domain.Gestor;
+import domain.Funcionario;
 import domain.Servico;
 
 //Casos de Uso - Requisitos Funcionais (Verbo no Infinitivo).
@@ -17,13 +16,15 @@ import domain.Servico;
 public class ContratoService {
 	
 	
-	public void criarContrato(Empresa empresa, Gestor gestor, Servico servico, Date inicio, Date fim, String aditivo) {
-		Contrato contrato = new Contrato(empresa, gestor, servico, inicio, fim, aditivo);
+	public UUID criarContrato(Empresa empresa, Funcionario gestor, Servico servico, int duracao, String aditivo) {
+		Contrato contrato = new Contrato(empresa, gestor, servico, duracao, aditivo);
 		
 		//--- Persiste ---
 		ContratoDao contratoDao = new ContratoDao();
 		contratoDao.create(contrato);
 		//----------------
+		
+		return contrato.getId();
 	}
 	
 	public Contrato obterContrato(UUID id) {	
@@ -64,8 +65,8 @@ public class ContratoService {
 		return resultadoBusca;
 	}
 	
-	public void editarContrato(UUID id, Empresa cliente, Gestor gestor, Servico servico, Date inicio, Date fim, String aditivo) {
-		Contrato contrato = new Contrato(cliente, gestor, servico, inicio, fim, aditivo);
+	public void editarContrato(UUID id, Empresa cliente, Funcionario gestor, Servico servico, int duracao, String aditivo) {
+		Contrato contrato = new Contrato(id, cliente, gestor, servico, duracao, aditivo);
 		
 		//--- Persiste ---
 		ContratoDao contratoDao = new ContratoDao();
