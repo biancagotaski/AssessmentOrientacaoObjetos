@@ -27,8 +27,8 @@ public class ServicoService {
 		return servicoDao.readAll();
 	}
 	
-	public void alterarServico(String descricao, boolean ofereceGarantia, int duracaoServico, float valor, boolean ofereceManutencao) {
-		Servico servico = new Servico(descricao, ofereceGarantia, duracaoServico, valor, ofereceManutencao);
+	public void alterarServico(UUID id, String descricao, boolean ofereceGarantia, int duracaoServico, float valor, boolean ofereceManutencao) {
+		Servico servico = new Servico(id, descricao, ofereceGarantia, duracaoServico, valor, ofereceManutencao);
 		
 		ServicoDao servicoDao = new ServicoDao();
 		servicoDao.update(servico);

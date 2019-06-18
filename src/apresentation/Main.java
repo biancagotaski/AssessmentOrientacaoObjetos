@@ -30,14 +30,14 @@ public class Main {
 		Scanner scanner = new Scanner(System.in);
 		
 		do{
-			System.out.println("========= Gerenciador da Empresa IBN =========");
+			System.out.println("========= Gerenciador de Contratos da Empresa XPTO =========");
 			System.out.println();
 			System.out.println("---- Funcionários ----");
 			System.out.println("1 - Cadastrar Funcionário");
 			System.out.println("2 - Alterar Funcionoário");
 			System.out.println("3 - Deletar Funcionoário");
 			System.out.println("4 - Imprimir um Funcionário");
-			System.out.println("5 - Imprimir todos os Funcionário");
+			System.out.println("5 - Listar todos os Funcionário");
 			System.out.println("-----------------------");
 			System.out.println();
 			System.out.println("---- Empresas (Clientes) ----");
@@ -45,7 +45,7 @@ public class Main {
 			System.out.println("7 - Alterar Empresa");
 			System.out.println("8 - Deletar Empresa");
 			System.out.println("9 - Imprimir uma Empresa");
-			System.out.println("10 - Imprimir Todas as Empresas");
+			System.out.println("10 - Listar Todas as Empresas");
 			System.out.println("-----------------------");
 			System.out.println();
 			System.out.println("---- Serviços que você irá oferecer ----");
@@ -53,7 +53,7 @@ public class Main {
 			System.out.println("12 - Alterar Serviço");
 			System.out.println("13 - Deletar Serviço");
 			System.out.println("14 - Imprimir um Serviço");
-			System.out.println("15 - Imprimir Todas os Serviços");
+			System.out.println("15 - Listar todos os Serviços");
 			System.out.println("-----------------------");
 			System.out.println();
 			System.out.println("---- Contratos ----");
@@ -61,7 +61,7 @@ public class Main {
 			System.out.println("17 - Alterar Contrato");
 			System.out.println("18 - Deletar Contrato");
 			System.out.println("19 - Imprimir um Contrato");
-			System.out.println("20 - Imprimir Todas os Contratos");
+			System.out.println("20 - Listar todos os Contratos");
 			System.out.println("-----------------------");
 			System.out.println("22 - Sair");
 			opcao = scanner.nextInt();
@@ -98,6 +98,21 @@ public class Main {
 					break;
 				case 10:
 					listarEmpresas();
+					break;
+				case 11:
+					cadastrarServico();
+					break;
+				case 12:
+					alterarServico();
+					break;
+				case 13:
+					deletarServico();
+					break;
+				case 14:
+					imprimirServico();
+					break;
+				case 15:
+					listarServicos();
 					break;
 				
 			}
@@ -276,6 +291,45 @@ public class Main {
 		}
 		
 		System.out.println("Digite a duração desse serviço:");
+		String duracao = scanner.nextLine();
+		
+		System.out.println("Digite o valor do serviço:");
+		String valor = scanner.nextLine();
+		
+		System.out.println("Esse serviço irá oferecer manutenção? (Digite s para Sim e n para Não)");
+		String inputUser = scanner.nextLine();
+		boolean ofereceManutencao = false;
+		if(inputUser.toLowerCase().equals("s")) {
+			ofereceManutencao = true;
+		}
+		else if(inputUser.toLowerCase().equals("n")) {
+			ofereceManutencao = false;
+		}
+
+		UUID id = servicoService.adicionarServico(descricao, ofereceGarantia, Integer.parseInt(duracao), Float.parseFloat(valor), ofereceManutencao);
+		System.out.println("Id do novo Serviço: " + id);
+	}
+	
+	public static void alterarServico() {
+		Scanner scanner = new Scanner(System.in);
+		
+		System.out.println("Digite o ID do Serviço:");
+		String idStr = scanner.nextLine();
+		UUID id = UUID.fromString(idStr);
+
+		System.out.println("Digite a descrição desse novo serviço:");
+		String descricao = scanner.nextLine();
+		
+		System.out.println("Esse serviço irá oferecer garantia? (Digite s para Sim e n para Não)");
+		String input = scanner.nextLine();
+		boolean ofereceGarantia = false;
+		if(input.toLowerCase().equals("s")) {
+			ofereceGarantia = true;
+		} else if(input.toLowerCase().equals("n")){
+			ofereceGarantia = false;
+		}
+		
+		System.out.println("Digite a duração desse serviço:");
 		int duracao = scanner.nextInt();
 		
 		System.out.println("Digite o valor do serviço:");
@@ -291,11 +345,37 @@ public class Main {
 			ofereceManutencao = false;
 		}
 
-		System.out.println("Informe o aditivo deste contrato:");
-		String aditivo = scanner.nextLine();
-
-		UUID id = servicoService.adicionarServico(descricao, ofereceGarantia, duracao, valor, ofereceManutencao);
-		System.out.println("Id do novo Serviço: " + id);
+		servicoService.alterarServico(id, descricao, ofereceGarantia, duracao, valor, ofereceManutencao);
+	}
+	
+	public static void deletarServico() {
+		Scanner scanner = new Scanner(System.in);
+		
+		System.out.println("Digite o ID do Serviço");
+		String idStr = scanner.nextLine();
+		UUID id = UUID.fromString(idStr);
+		
+		servicoService.deletarServico(id);
+		
+		System.out.println("Serviço deletado com sucesso!");
+	}
+	
+	public static void imprimirServico() {
+		Scanner scanner = new Scanner(System.in);
+		
+		System.out.println("Digite o ID do serviço");
+		String idStr = scanner.nextLine();
+		UUID id = UUID.fromString(idStr);
+		
+		Servico servico = servicoService.obterServico(id);
+		
+		System.out.println("Id: " + servico.getId());
+		System.out.println("Descrição: " + servico.getDescricao());
+		System.out.println("Oferece Garantia: " + servico.isOfereceGarantia());
+		System.out.println("Duração: " + servico.getDuracaoServico());
+		System.out.println("Valor: " + servico.getDuracaoServico());
+		System.out.println("Oferece Manutenção: " + servico.isOfereceManutencao());
+		System.out.println("******************************************");
 	}
 	
 	public static void listarServicos() {
